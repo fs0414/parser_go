@@ -1,6 +1,7 @@
 package lezer
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/fs0414/parser_go/token"
@@ -12,7 +13,7 @@ func TestNextToken(t *testing.T) {
 	let add = fn(x, y) {
 		x + y;
 	};
-	let result = add(fire, ten)
+	let result = add(fire, ten);
 	`
 
 	tests := []struct {
@@ -45,6 +46,7 @@ func TestNextToken(t *testing.T) {
 		{token.IDENT, "y"},
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
+		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
@@ -66,6 +68,7 @@ func TestNextToken(t *testing.T) {
 		if tok.Type != tt.expectedType {
 			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q", i, tt.expectedType, tok.Type)
 		}
+		fmt.Println(tok.Literal)
 
 		if tok.Literal != tt.expectedLiteral {
 			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
